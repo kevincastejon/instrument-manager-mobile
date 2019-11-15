@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, StyleSheet, View, Picker, Alert,
+  Text, ScrollView, StyleSheet, Picker, Alert, RefreshControl, ActivityIndicator,
 } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import Layout from '../components/Layout';
@@ -21,6 +21,7 @@ export default class SignInScreen extends React.Component {
       username: '',
       password: '',
       users: null,
+      refreshing: false,
     };
   }
 
@@ -95,11 +96,16 @@ export default class SignInScreen extends React.Component {
   }
 
   render() {
-    const { users, username, password } = this.state;
+    const {
+      users, username, password, refreshing,
+    } = this.state;
     return (
       <Layout>
-        <View style={styles.main}>
-          {!users ? null
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={this.refresh} />
+      }
+        >
+          {!users ? <ActivityIndicator size="large" color="#0000ff" />
             : (
               <>
                 <Text style={styles.title}>Utilisateur :</Text>
@@ -136,7 +142,7 @@ export default class SignInScreen extends React.Component {
                 />
               </>
             )}
-        </View>
+        </ScrollView>
       </Layout>
     );
   }
