@@ -69,7 +69,8 @@ export default class SignInScreen extends React.Component {
     navigation.navigate('App');
   }
 
-  refresh() {
+  refresh= () => {
+    this.setState({ users: null });
     const myInit = {
       method: 'GET',
       headers: {
